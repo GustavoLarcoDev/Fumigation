@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyFumig - Fumigación con Drones en Machala</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>Sky<span>Fumig</span></h1>
+                <p>Tecnología de punta para un campo más seguro</p>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#tecnologia">Tecnología</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#calculadora">Cotizador</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="video-container">
+            <video autoplay muted loop id="hero-video">
+                <source src="videos/testprincipal.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h2>Fumigación de Precisión con Drones</h2>
+            <p>Tecnología de punta para el control de plagas en la provincia de El Oro</p>
+            <a href="#contacto" class="btn">Solicitar Cotización</a>
+        </div>
+        <div class="scroll-down">
+            <span>Desliza para explorar</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2 class="section-title">Nuestros <span>Servicios</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-spray-can"></i></div>
+                    <h3>Fumigación Agrícola</h3>
+                    <p>Aplicación precisa de agroquímicos en cultivos extensivos con cobertura total.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Control de Plagas</h3>
+                    <p>Eliminación efectiva de plagas en cultivos de banano, cacao y más.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Análisis Multiespectral</h3>
+                    <p>Detección temprana de estrés hídrico y enfermedades en cultivos.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Mapeo de Cultivos</h3>
+                    <p>Cartografía detallada para una gestión agrícola más eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnología -->
+    <section id="tecnologia" class="technology">
+        <div class="container">
+            <div class="tech-content">
+                <h2 class="section-title">Tecnología <span>de Punta</span></h2>
+                <p>Nuestra flota de drones está equipada con la última tecnología en sistemas de fumigación, permitiendo una cobertura precisa y uniforme en cada aplicación.</p>
+                <div class="tech-features">
+                    <div class="feature">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Precisión milimétrica</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Mayor cobertura en menos tiempo</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-tint-slash"></i>
+                        <span>Menor deriva de químicos</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Análisis de datos en tiempo real</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tech-image">
+                <video src="videos/precision.mp4" autoplay muted loop playsinline></video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de Videos -->
+    <section id="galeria" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Galería de <span>Videos</span></h2>
+            <div class="gallery-grid">
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/precision.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Precision</div>
+                </div>
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/monitoreo.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Monitoreo</div>
+                </div>
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/test2.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Operación en campo</div>
+                </div>
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/test4.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Cobertura y deriva mínima</div>
+                </div>
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/test5.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Precisión en perímetros</div>
+                </div>
+                <div class="video-card">
+                    <video class="video-thumb" src="videos/testsecundario.mp4" autoplay muted loop playsinline></video>
+                    <div class="video-caption">Vista secundaria</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculadora de Cotizaciones -->
+    <section id="calculadora" class="calculator">
+        <div class="container">
+            <h2 class="section-title">Calculadora de <span>Cotizaciones</span></h2>
+            <div class="calculator-container">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="terreno">Tipo de Terreno</label>
+                        <select id="terreno">
+                            <option value="1">Plano</option>
+                            <option value="1.2">Ligera pendiente</option>
+                            <option value="1.5">Acceso difícil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tamano">Tamaño del Terreno (hectáreas)</label>
+                        <input type="number" id="tamano" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="frecuencia">Frecuencia</label>
+                        <select id="frecuencia">
+                            <option value="1">Única vez</option>
+                            <option value="0.9">Mensual</option>
+                            <option value="0.8">Trimestral</option>
+                            <option value="0.7">Anual</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo-plaga">Tipo de Plaga</label>
+                        <select id="tipo-plaga">
+                            <option value="1">Mosca de la fruta</option>
+                            <option value="1.1">Ácaros</option>
+                            <option value="1.2">Hormigas</option>
+                            <option value="1.3">Otras plagas</option>
+                        </select>
+                    </div>
+                    <button id="calcular" class="btn">Calcular</button>
+                </div>
+                <div class="calculator-result">
+                    <h3>Estimado de Costo</h3>
+                    <div class="result-box">
+                        <span class="amount">$<span id="monto">0.00</span></span>
+                        <span class="iva">+ IVA</span>
+                    </div>
+                    <p>Precio por hectárea: $<span id="precio-hectarea">0.00</span></p>
+                    <p>Este es un estimado. Contáctenos para una cotización exacta.</p>
+                    <a href="#contacto" class="btn-outline">Solicitar Asesoría</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen <span>nuestros clientes</span></h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="quote">"Increíble la precisión de los drones. Redujimos el uso de químicos en un 30%."</div>
+                    <div class="client">
+                        <div class="client-info">
+                            <h4>Carlos M.</h4>
+                            <span>Productor de Banano, Machala</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote">"Rápido, eficiente y con excelentes resultados. Lo recomiendo 100%."</div>
+                    <div class="client">
+                        <div class="client-info">
+                            <h4>María L.</h4>
+                            <span>Productora de Cacao, El Guabo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="contact-info">
+                <h2 class="section-title">Contáctenos</h2>
+                <p>Estamos listos para atender sus necesidades de fumigación con la última tecnología en drones.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Ubicación</h4>
+                            <p>Av. 25 de Junio, Machala - El Oro, Ecuador</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Teléfono</h4>
+                            <p>+593 98 765 4321</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Correo</h4>
+                            <p>info@skyfumig.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Envíanos un mensaje</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Teléfono">
+                    </div>
+                    <div class="form-group">
+                        <select required>
+                            <option value="" disabled selected>Seleccione un servicio</option>
+                            <option>Fumigación Agrícola</option>
+                            <option>Control de Plagas</option>
+                            <option>Análisis Multiespectral</option>
+                            <option>Mapeo de Cultivos</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa -->
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.331856210009!2d-79.96286468524373!3d-3.25834379767545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwMTUnMzAuMSJTIDc5wrA1Nyc0My4zIlc!5e0!3m2!1sen!2sec!4v1610000000000!5m2!1sen!2sec" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Sky<span>Fumig</span></h2>
+                    <p>Tecnología de punta para el campo del futuro</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#tecnologia">Tecnología</a></li>
+                        <li><a href="#calculadora">Cotizador</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. 25 de Junio, Machala - El Oro</p>
+                    <p><i class="fas fa-phone"></i> +593 98 765 4321</p>
+                    <p><i class="fas fa-envelope"></i> info@skyfumig.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SkyFumig. Todos los derechos reservados.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/593987654321" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    
+
+    <script src="js/main.js"></script>
+</body>
+</html>
