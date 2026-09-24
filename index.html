@@ -1,351 +1,521 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyFumig - Fumigación con Drones en Machala</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyFumig | Fumigación con drones en Machala, El Oro</title>
+  <meta name="description" content="SkyFumig: fumigación agrícola y control de plagas con drones en Machala, El Oro. Aplicación precisa en banano y cacao, mapeo de cultivos y cotizador en línea.">
+  <meta name="theme-color" content="#0B0D0C">
+  <link rel="canonical" href="https://gustavolarcodev.github.io/Fumigation/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_EC">
+  <meta property="og:site_name" content="SkyFumig">
+  <meta property="og:title" content="SkyFumig | Fumigación con drones en Machala, El Oro">
+  <meta property="og:description" content="Fumigación agrícola y control de plagas con drones en la provincia de El Oro. Calcula tu cotización en línea.">
+  <meta property="og:url" content="https://gustavolarcodev.github.io/Fumigation/">
+  <meta property="og:image" content="https://gustavolarcodev.github.io/Fumigation/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Equipo de SkyFumig junto a drones de fumigación">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SkyFumig | Fumigación con drones en Machala, El Oro">
+  <meta name="twitter:description" content="Fumigación agrícola y control de plagas con drones en la provincia de El Oro.">
+  <meta name="twitter:image" content="https://gustavolarcodev.github.io/Fumigation/img/og-image.jpg">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&text=SkyFumig&display=swap">
+  <link rel="preload" as="image" href="videos/posters/hero.webp" media="(orientation: landscape), (min-width: 821px)">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js')</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SkyFumig",
+    "description": "Fumigación agrícola y control de plagas con drones en la provincia de El Oro, Ecuador.",
+    "url": "https://gustavolarcodev.github.io/Fumigation/",
+    "image": "https://gustavolarcodev.github.io/Fumigation/img/og-image.jpg",
+    "telephone": "+593 98 765 4321",
+    "email": "info@skyfumig.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. 25 de Junio",
+      "addressLocality": "Machala",
+      "addressRegion": "El Oro",
+      "addressCountry": "EC"
+    },
+    "areaServed": "El Oro, Ecuador"
+  }
+  </script>
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="loader"></div>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-drone" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.5 9.5 13 13M22.5 9.5 19 13M9.5 22.5 13 19M22.5 22.5 19 19"/><circle cx="7" cy="7" r="4"/><circle cx="25" cy="7" r="4"/><circle cx="7" cy="25" r="4"/><circle cx="25" cy="25" r="4"/></g><rect x="12.5" y="12.5" width="7" height="7" rx="2" fill="currentColor"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-droplets" viewBox="0 0 24 24"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+      <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h2l1.5-3 3 6 1.5-3h2"/></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15M9 3.236v15"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+      <symbol id="i-wind" viewBox="0 0 24 24"><path d="M12.8 19.6A2 2 0 1 0 14 16H2M17.5 8a2.5 2.5 0 1 1 2 4H2M9.8 4.4A2 2 0 1 1 11 8H2"/></symbol>
+      <symbol id="i-pie" viewBox="0 0 24 24"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+      <symbol id="i-quote" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- Header -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a class="brand" href="#inicio" aria-label="SkyFumig, ir al inicio">
+        <svg class="brand__mark" aria-hidden="true"><use href="#i-drone"/></svg>
+        <span class="brand__word">Sky<span>Fumig</span></span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Principal">
+        <ul class="nav__list">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#tecnologia">Tecnología</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#calculadora">Cotizador</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <p class="nav__foot">Av. 25 de Junio, Machala · El Oro</p>
+      </nav>
+
+      <div class="header__actions">
+        <a class="icon-btn icon-btn--wa" href="https://wa.me/593987654321" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+          <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
+        </a>
+        <a class="btn btn--primary btn--sm" href="#calculadora">Cotizar</a>
+        <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú">
+          <svg class="nav-toggle__open" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="nav-toggle__close" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <h1>Sky<span>Fumig</span></h1>
-                <p>Tecnología de punta para un campo más seguro</p>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#tecnologia">Tecnología</a></li>
-                    <li><a href="#galeria">Galería</a></li>
-                    <li><a href="#calculadora">Cotizador</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
-            <div class="mobile-menu">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </header>
+  <main id="main">
+    <!-- Hero -->
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true">
+        <video class="hero__video" id="hero-video" muted loop playsinline preload="metadata" poster="videos/posters/hero.webp"
+               data-portrait-src="videos/hero-portrait.mp4" data-portrait-poster="videos/posters/hero-portrait.webp"
+               data-src="videos/hero.mp4"></video>
+        <div class="hero__shade"></div>
+        <div class="hero__reticle"><span></span><span></span><span></span><span></span></div>
+      </div>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
-        <div class="video-container">
-            <video autoplay muted loop id="hero-video">
-                <source src="videos/testprincipal.mp4" type="video/mp4">
-            </video>
-            <div class="overlay"></div>
+      <div class="container hero__content">
+        <p class="eyebrow eyebrow--live"><span class="dot" aria-hidden="true"></span>Machala · El Oro, Ecuador</p>
+        <h1 id="hero-title" class="hero__title">Fumigación de precisión <span class="accent">con drones</span></h1>
+        <p class="hero__lead">Tecnología de punta para el control de plagas en la provincia de El Oro.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--primary" href="#calculadora">Solicitar cotización <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--ghost" href="#galeria"><svg aria-hidden="true"><use href="#i-play"/></svg> Ver en acción</a>
         </div>
-        <div class="hero-content">
-            <h2>Fumigación de Precisión con Drones</h2>
-            <p>Tecnología de punta para el control de plagas en la provincia de El Oro</p>
-            <a href="#contacto" class="btn">Solicitar Cotización</a>
-        </div>
-        <div class="scroll-down">
-            <span>Desliza para explorar</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
+        <ul class="chips" aria-label="Ventajas">
+          <li><svg aria-hidden="true"><use href="#i-wind"/></svg>Menor deriva de químicos</li>
+          <li><svg aria-hidden="true"><use href="#i-gauge"/></svg>Mayor cobertura en menos tiempo</li>
+          <li><svg aria-hidden="true"><use href="#i-leaf"/></svg>Banano · Cacao</li>
+        </ul>
+      </div>
+
+      <div class="container hero__bottom">
+        <a class="scroll-cue" href="#servicios"><span class="scroll-cue__line" aria-hidden="true"></span>Desliza para explorar</a>
+        <button class="media-toggle" type="button" data-video="hero-video" aria-label="Pausar video de fondo" aria-pressed="false">
+          <svg class="media-toggle__pause" aria-hidden="true"><use href="#i-pause"/></svg>
+          <svg class="media-toggle__play" aria-hidden="true"><use href="#i-play"/></svg>
+        </button>
+      </div>
     </section>
 
     <!-- Servicios -->
-    <section id="servicios" class="services">
-        <div class="container">
-            <h2 class="section-title">Nuestros <span>Servicios</span></h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="icon"><i class="fas fa-spray-can"></i></div>
-                    <h3>Fumigación Agrícola</h3>
-                    <p>Aplicación precisa de agroquímicos en cultivos extensivos con cobertura total.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon"><i class="fas fa-leaf"></i></div>
-                    <h3>Control de Plagas</h3>
-                    <p>Eliminación efectiva de plagas en cultivos de banano, cacao y más.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Análisis Multiespectral</h3>
-                    <p>Detección temprana de estrés hídrico y enfermedades en cultivos.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <h3>Mapeo de Cultivos</h3>
-                    <p>Cartografía detallada para una gestión agrícola más eficiente.</p>
-                </div>
+    <section id="servicios" class="section services" aria-labelledby="servicios-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Servicios</p>
+          <h2 id="servicios-title">Soluciones aéreas para <span class="accent">tu cultivo</span></h2>
+          <p class="lead">Desde la aplicación de agroquímicos hasta el mapeo de tus parcelas: todo lo hacemos desde el aire, con precisión y sin pisar el cultivo.</p>
+        </header>
+        <div class="services__grid">
+          <article class="service-card reveal">
+            <span class="service-card__num" aria-hidden="true">01</span>
+            <div class="icon-tile"><svg aria-hidden="true"><use href="#i-droplets"/></svg></div>
+            <div>
+              <h3>Fumigación agrícola</h3>
+              <p>Aplicación precisa de agroquímicos en cultivos extensivos con cobertura total.</p>
             </div>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-card__num" aria-hidden="true">02</span>
+            <div class="icon-tile"><svg aria-hidden="true"><use href="#i-leaf"/></svg></div>
+            <div>
+              <h3>Control de plagas</h3>
+              <p>Eliminación efectiva de plagas en cultivos de banano, cacao y más.</p>
+            </div>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-card__num" aria-hidden="true">03</span>
+            <div class="icon-tile"><svg aria-hidden="true"><use href="#i-scan"/></svg></div>
+            <div>
+              <h3>Análisis multiespectral</h3>
+              <p>Detección temprana de estrés hídrico y enfermedades en cultivos.</p>
+            </div>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-card__num" aria-hidden="true">04</span>
+            <div class="icon-tile"><svg aria-hidden="true"><use href="#i-map"/></svg></div>
+            <div>
+              <h3>Mapeo de cultivos</h3>
+              <p>Cartografía detallada para una gestión agrícola más eficiente.</p>
+            </div>
+          </article>
         </div>
+      </div>
     </section>
 
     <!-- Tecnología -->
-    <section id="tecnologia" class="technology">
-        <div class="container">
-            <div class="tech-content">
-                <h2 class="section-title">Tecnología <span>de Punta</span></h2>
-                <p>Nuestra flota de drones está equipada con la última tecnología en sistemas de fumigación, permitiendo una cobertura precisa y uniforme en cada aplicación.</p>
-                <div class="tech-features">
-                    <div class="feature">
-                        <i class="fas fa-bullseye"></i>
-                        <span>Precisión milimétrica</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Mayor cobertura en menos tiempo</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-tint-slash"></i>
-                        <span>Menor deriva de químicos</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-chart-pie"></i>
-                        <span>Análisis de datos en tiempo real</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tech-image">
-                <video src="videos/precision.mp4" autoplay muted loop playsinline></video>
-            </div>
+    <section id="tecnologia" class="section tech" aria-labelledby="tecnologia-title">
+      <div class="container tech__grid">
+        <div class="tech__copy reveal">
+          <p class="eyebrow">Tecnología</p>
+          <h2 id="tecnologia-title">Tecnología de punta <span class="accent">en cada vuelo</span></h2>
+          <p class="lead">Nuestra flota de drones está equipada con la última tecnología en sistemas de fumigación, permitiendo una cobertura precisa y uniforme en cada aplicación.</p>
+          <ul class="features">
+            <li><span class="features__icon"><svg aria-hidden="true"><use href="#i-target"/></svg></span>Precisión milimétrica</li>
+            <li><span class="features__icon"><svg aria-hidden="true"><use href="#i-gauge"/></svg></span>Mayor cobertura en menos tiempo</li>
+            <li><span class="features__icon"><svg aria-hidden="true"><use href="#i-wind"/></svg></span>Menor deriva de químicos</li>
+            <li><span class="features__icon"><svg aria-hidden="true"><use href="#i-pie"/></svg></span>Análisis de datos en tiempo real</li>
+          </ul>
+          <a class="btn btn--ghost" href="#calculadora">Calcular mi cotización <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </div>
+        <figure class="device reveal">
+          <div class="device__frame">
+            <video id="tech-video" class="device__video js-inview" muted loop playsinline preload="none" poster="videos/posters/precision.webp" aria-label="Dron de fumigación despegando y aterrizando">
+              <source src="videos/precision.mp4" type="video/mp4">
+            </video>
+            <span class="device__tag"><span class="dot" aria-hidden="true"></span>En operación</span>
+            <button class="media-toggle media-toggle--sm" type="button" data-video="tech-video" aria-label="Pausar video" aria-pressed="false">
+              <svg class="media-toggle__pause" aria-hidden="true"><use href="#i-pause"/></svg>
+              <svg class="media-toggle__play" aria-hidden="true"><use href="#i-play"/></svg>
+            </button>
+          </div>
+          <figcaption class="visually-hidden">Dron de fumigación en operación</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <!-- Galería de Videos -->
-    <section id="galeria" class="gallery">
-        <div class="container">
-            <h2 class="section-title">Galería de <span>Videos</span></h2>
-            <div class="gallery-grid">
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/precision.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Precision</div>
-                </div>
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/monitoreo.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Monitoreo</div>
-                </div>
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/test2.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Operación en campo</div>
-                </div>
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/test4.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Cobertura y deriva mínima</div>
-                </div>
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/test5.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Precisión en perímetros</div>
-                </div>
-                <div class="video-card">
-                    <video class="video-thumb" src="videos/testsecundario.mp4" autoplay muted loop playsinline></video>
-                    <div class="video-caption">Vista secundaria</div>
-                </div>
-            </div>
-        </div>
+    <!-- Galería -->
+    <section id="galeria" class="section gallery" aria-labelledby="galeria-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Galería</p>
+          <h2 id="galeria-title">Nuestro equipo <span class="accent">en acción</span></h2>
+          <p class="lead">Preparación, control y vuelo: así se ve una jornada de trabajo. Toca un video para verlo en grande.</p>
+        </header>
+        <ul class="gallery__grid" role="list">
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/vuelo.mp4" data-title="Dron en vuelo" aria-label="Reproducir video: Dron en vuelo">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/vuelo.webp" src="videos/vuelo.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">01</span>Dron en vuelo</span>
+            </button>
+          </li>
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/monitoreo.mp4" data-title="Monitoreo desde el control remoto" aria-label="Reproducir video: Monitoreo desde el control remoto">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/monitoreo.webp" src="videos/monitoreo.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">02</span>Monitoreo desde el control</span>
+            </button>
+          </li>
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/estacion.mp4" data-title="Controles y mapeo en campo" aria-label="Reproducir video: Controles y mapeo en campo">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/estacion.webp" src="videos/estacion.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">03</span>Controles y mapeo en campo</span>
+            </button>
+          </li>
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/preparacion.mp4" data-title="Preparación del dron" aria-label="Reproducir video: Preparación del dron">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/preparacion.webp" src="videos/preparacion.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">04</span>Preparación del dron</span>
+            </button>
+          </li>
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/tanque.mp4" data-title="Tanque de aspersión" aria-label="Reproducir video: Tanque de aspersión">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/tanque.webp" src="videos/tanque.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">05</span>Tanque de aspersión</span>
+            </button>
+          </li>
+          <li class="clip reveal">
+            <button class="clip__btn" type="button" data-src="videos/llenado.mp4" data-title="Revisión del tanque" aria-label="Reproducir video: Revisión del tanque">
+              <video class="clip__video" muted loop playsinline preload="none" poster="videos/posters/llenado.webp" src="videos/llenado.mp4" aria-hidden="true"></video>
+              <span class="clip__play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+              <span class="clip__caption"><span class="clip__idx">06</span>Revisión del tanque</span>
+            </button>
+          </li>
+        </ul>
+      </div>
     </section>
 
-    <!-- Calculadora de Cotizaciones -->
-    <section id="calculadora" class="calculator">
-        <div class="container">
-            <h2 class="section-title">Calculadora de <span>Cotizaciones</span></h2>
-            <div class="calculator-container">
-                <div class="calculator-form">
-                    <div class="form-group">
-                        <label for="terreno">Tipo de Terreno</label>
-                        <select id="terreno">
-                            <option value="1">Plano</option>
-                            <option value="1.2">Ligera pendiente</option>
-                            <option value="1.5">Acceso difícil</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tamano">Tamaño del Terreno (hectáreas)</label>
-                        <input type="number" id="tamano" min="1" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="frecuencia">Frecuencia</label>
-                        <select id="frecuencia">
-                            <option value="1">Única vez</option>
-                            <option value="0.9">Mensual</option>
-                            <option value="0.8">Trimestral</option>
-                            <option value="0.7">Anual</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tipo-plaga">Tipo de Plaga</label>
-                        <select id="tipo-plaga">
-                            <option value="1">Mosca de la fruta</option>
-                            <option value="1.1">Ácaros</option>
-                            <option value="1.2">Hormigas</option>
-                            <option value="1.3">Otras plagas</option>
-                        </select>
-                    </div>
-                    <button id="calcular" class="btn">Calcular</button>
-                </div>
-                <div class="calculator-result">
-                    <h3>Estimado de Costo</h3>
-                    <div class="result-box">
-                        <span class="amount">$<span id="monto">0.00</span></span>
-                        <span class="iva">+ IVA</span>
-                    </div>
-                    <p>Precio por hectárea: $<span id="precio-hectarea">0.00</span></p>
-                    <p>Este es un estimado. Contáctenos para una cotización exacta.</p>
-                    <a href="#contacto" class="btn-outline">Solicitar Asesoría</a>
-                </div>
+    <!-- Cotizador -->
+    <section id="calculadora" class="section quote" aria-labelledby="calculadora-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Cotizador</p>
+          <h2 id="calculadora-title">Calcula tu cotización <span class="accent">en segundos</span></h2>
+          <p class="lead">Elige las características de tu terreno y obtén un estimado referencial al instante. Luego envíalo por WhatsApp y te confirmamos el precio exacto.</p>
+        </header>
+
+        <div class="quote__grid reveal">
+          <form class="quote__form card" id="quote-form" novalidate>
+            <fieldset class="field">
+              <legend class="field__label">Tipo de terreno</legend>
+              <div class="pills">
+                <label class="pill"><input type="radio" name="terreno" value="1" data-label="Plano" checked><span>Plano</span></label>
+                <label class="pill"><input type="radio" name="terreno" value="1.2" data-label="Ligera pendiente"><span>Ligera pendiente</span></label>
+                <label class="pill"><input type="radio" name="terreno" value="1.5" data-label="Acceso difícil"><span>Acceso difícil</span></label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label class="field__label" for="hectareas">Tamaño del terreno <span class="field__hint">(hectáreas)</span></label>
+              <div class="stepper">
+                <button type="button" class="stepper__btn" data-step="-1" aria-label="Restar una hectárea"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+                <input id="hectareas" name="hectareas" type="number" inputmode="decimal" min="1" max="10000" step="1" value="10" required aria-describedby="hectareas-error">
+                <button type="button" class="stepper__btn" data-step="1" aria-label="Sumar una hectárea"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+              </div>
+              <p class="field__error" id="hectareas-error" aria-live="polite"></p>
             </div>
+
+            <fieldset class="field">
+              <legend class="field__label">Tipo de plaga</legend>
+              <div class="pills">
+                <label class="pill"><input type="radio" name="plaga" value="1" data-label="Mosca de la fruta" checked><span>Mosca de la fruta</span></label>
+                <label class="pill"><input type="radio" name="plaga" value="1.1" data-label="Ácaros"><span>Ácaros</span></label>
+                <label class="pill"><input type="radio" name="plaga" value="1.2" data-label="Hormigas"><span>Hormigas</span></label>
+                <label class="pill"><input type="radio" name="plaga" value="1.3" data-label="Otras plagas"><span>Otras plagas</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="field">
+              <legend class="field__label">Frecuencia</legend>
+              <div class="pills pills--4">
+                <label class="pill"><input type="radio" name="frecuencia" value="1" data-label="Única vez" checked><span>Única vez</span></label>
+                <label class="pill"><input type="radio" name="frecuencia" value="0.9" data-label="Mensual"><span>Mensual <small>−10%</small></span></label>
+                <label class="pill"><input type="radio" name="frecuencia" value="0.8" data-label="Trimestral"><span>Trimestral <small>−20%</small></span></label>
+                <label class="pill"><input type="radio" name="frecuencia" value="0.7" data-label="Anual"><span>Anual <small>−30%</small></span></label>
+              </div>
+            </fieldset>
+          </form>
+
+          <aside class="quote__result card" aria-labelledby="result-title">
+            <p class="quote__label" id="result-title">Estimado de costo</p>
+            <p class="quote__amount"><output id="total" for="quote-form" aria-live="polite">$0,00</output></p>
+            <p class="quote__tax">Estimado referencial + IVA</p>
+            <dl class="breakdown">
+              <div><dt>Precio base por hectárea</dt><dd id="b-base">$50,00</dd></div>
+              <div><dt>Factor terreno × plaga</dt><dd id="b-factor">× 1,00</dd></div>
+              <div><dt>Precio por hectárea</dt><dd id="b-ha">$50,00</dd></div>
+              <div><dt>Hectáreas</dt><dd id="b-size">10</dd></div>
+              <div><dt>Descuento por frecuencia</dt><dd id="b-disc">—</dd></div>
+            </dl>
+            <div class="quote__actions">
+              <a class="btn btn--primary btn--block" id="quote-wa" href="https://wa.me/593987654321" target="_blank" rel="noopener">
+                <svg aria-hidden="true"><use href="#i-whatsapp"/></svg> Enviar esta cotización por WhatsApp
+              </a>
+              <a class="btn btn--ghost btn--block" href="#contacto">Solicitar asesoría</a>
+            </div>
+            <p class="quote__note">Este es un estimado. Contáctanos para una cotización exacta.</p>
+          </aside>
         </div>
+      </div>
     </section>
 
     <!-- Testimonios -->
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">Lo que dicen <span>nuestros clientes</span></h2>
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <div class="quote">"Increíble la precisión de los drones. Redujimos el uso de químicos en un 30%."</div>
-                    <div class="client">
-                        <div class="client-info">
-                            <h4>Carlos M.</h4>
-                            <span>Productor de Banano, Machala</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <div class="quote">"Rápido, eficiente y con excelentes resultados. Lo recomiendo 100%."</div>
-                    <div class="client">
-                        <div class="client-info">
-                            <h4>María L.</h4>
-                            <span>Productora de Cacao, El Guabo</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="section testimonials" aria-labelledby="testimonios-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Testimonios</p>
+          <h2 id="testimonios-title">Lo que dicen <span class="accent">nuestros clientes</span></h2>
+        </header>
+        <div class="testimonials__grid">
+          <figure class="testimonial card reveal">
+            <svg class="testimonial__mark" aria-hidden="true"><use href="#i-quote"/></svg>
+            <blockquote><p>Increíble la precisión de los drones. Redujimos el uso de químicos en un 30%.</p></blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true">CM</span>
+              <span><strong>Carlos M.</strong><span>Productor de banano, Machala</span></span>
+            </figcaption>
+          </figure>
+          <figure class="testimonial card reveal">
+            <svg class="testimonial__mark" aria-hidden="true"><use href="#i-quote"/></svg>
+            <blockquote><p>Rápido, eficiente y con excelentes resultados. Lo recomiendo 100%.</p></blockquote>
+            <figcaption>
+              <span class="avatar avatar--leaf" aria-hidden="true">ML</span>
+              <span><strong>María L.</strong><span>Productora de cacao, El Guabo</span></span>
+            </figcaption>
+          </figure>
         </div>
+      </div>
     </section>
 
     <!-- Contacto -->
-    <section id="contacto" class="contact">
-        <div class="container">
-            <div class="contact-info">
-                <h2 class="section-title">Contáctenos</h2>
-                <p>Estamos listos para atender sus necesidades de fumigación con la última tecnología en drones.</p>
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Ubicación</h4>
-                            <p>Av. 25 de Junio, Machala - El Oro, Ecuador</p>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Teléfono</h4>
-                            <p>+593 98 765 4321</p>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Correo</h4>
-                            <p>info@skyfumig.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="contact-form">
-                <h3>Envíanos un mensaje</h3>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <input type="text" placeholder="Nombre completo" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Correo electrónico" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" placeholder="Teléfono">
-                    </div>
-                    <div class="form-group">
-                        <select required>
-                            <option value="" disabled selected>Seleccione un servicio</option>
-                            <option>Fumigación Agrícola</option>
-                            <option>Control de Plagas</option>
-                            <option>Análisis Multiespectral</option>
-                            <option>Mapeo de Cultivos</option>
-                            <option>Otro</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea rows="5" placeholder="Mensaje" required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Enviar Mensaje</button>
-                </form>
-            </div>
+    <section id="contacto" class="section contact" aria-labelledby="contacto-title">
+      <div class="container contact__grid">
+        <div class="contact__info reveal">
+          <p class="eyebrow">Contacto</p>
+          <h2 id="contacto-title">Hablemos de <span class="accent">tu cultivo</span></h2>
+          <p class="lead">Estamos listos para atender tus necesidades de fumigación con la última tecnología en drones.</p>
+
+          <ul class="contact-list">
+            <li>
+              <span class="icon-tile icon-tile--sm"><svg aria-hidden="true"><use href="#i-pin"/></svg></span>
+              <span><span class="contact-list__k">Ubicación</span><span class="contact-list__v">Av. 25 de Junio, Machala - El Oro, Ecuador</span></span>
+            </li>
+            <li>
+              <span class="icon-tile icon-tile--sm"><svg aria-hidden="true"><use href="#i-phone"/></svg></span>
+              <span><span class="contact-list__k">Teléfono</span><a class="contact-list__v" href="tel:+593987654321">+593 98 765 4321</a></span>
+            </li>
+            <li>
+              <span class="icon-tile icon-tile--sm"><svg aria-hidden="true"><use href="#i-mail"/></svg></span>
+              <span><span class="contact-list__k">Correo</span><a class="contact-list__v" href="mailto:info@skyfumig.com">info@skyfumig.com</a></span>
+            </li>
+            <li>
+              <span class="icon-tile icon-tile--sm icon-tile--wa"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></span>
+              <span><span class="contact-list__k">WhatsApp</span><a class="contact-list__v" href="https://wa.me/593987654321" target="_blank" rel="noopener">Escríbenos ahora</a></span>
+            </li>
+          </ul>
+
+          <div class="map card">
+            <iframe title="Mapa: Av. 25 de Junio, Machala, El Oro" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=Av.+25+de+Junio,+Machala,+El+Oro,+Ecuador&amp;z=15&amp;output=embed"></iframe>
+          </div>
         </div>
+
+        <div class="contact__form card reveal">
+          <h3>Envíanos un mensaje</h3>
+          <p class="contact__form-sub">Completa el formulario y se abrirá WhatsApp o tu correo con el mensaje listo para enviar.</p>
+          <form id="contact-form" novalidate>
+            <div class="float">
+              <input id="c-name" name="nombre" type="text" autocomplete="name" placeholder=" " required>
+              <label for="c-name">Nombre completo</label>
+            </div>
+            <div class="form-row">
+              <div class="float">
+                <input id="c-email" name="correo" type="email" autocomplete="email" placeholder=" " required>
+                <label for="c-email">Correo electrónico</label>
+              </div>
+              <div class="float">
+                <input id="c-phone" name="telefono" type="tel" autocomplete="tel" placeholder=" ">
+                <label for="c-phone">Teléfono <span class="opt">(opcional)</span></label>
+              </div>
+            </div>
+            <div class="float float--select">
+              <select id="c-service" name="servicio" required>
+                <option value="" disabled selected></option>
+                <option>Fumigación agrícola</option>
+                <option>Control de plagas</option>
+                <option>Análisis multiespectral</option>
+                <option>Mapeo de cultivos</option>
+                <option>Otro</option>
+              </select>
+              <label for="c-service">Servicio de interés</label>
+            </div>
+            <div class="float">
+              <textarea id="c-msg" name="mensaje" rows="4" placeholder=" " required></textarea>
+              <label for="c-msg">Mensaje</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn--primary" type="submit" value="whatsapp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg> Enviar por WhatsApp</button>
+              <button class="btn btn--ghost" type="submit" value="email"><svg aria-hidden="true"><use href="#i-mail"/></svg> Enviar por correo</button>
+            </div>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
     </section>
+  </main>
 
-    <!-- Mapa -->
-    <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.331856210009!2d-79.96286468524373!3d-3.25834379767545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwMTUnMzAuMSJTIDc5wrA1Nyc0My4zIlc!5e0!3m2!1sen!2sec!4v1610000000000!5m2!1sen!2sec" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a class="brand" href="#inicio" aria-label="SkyFumig, volver al inicio">
+          <svg class="brand__mark" aria-hidden="true"><use href="#i-drone"/></svg>
+          <span class="brand__word">Sky<span>Fumig</span></span>
+        </a>
+        <p>Tecnología de punta para el campo del futuro.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Enlaces rápidos">
+        <p class="footer__title">Enlaces rápidos</p>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#tecnologia">Tecnología</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#calculadora">Cotizador</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="footer__contact">
+        <p class="footer__title">Contacto</p>
+        <ul>
+          <li><svg aria-hidden="true"><use href="#i-pin"/></svg>Av. 25 de Junio, Machala - El Oro</li>
+          <li><svg aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+593987654321">+593 98 765 4321</a></li>
+          <li><svg aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:info@skyfumig.com">info@skyfumig.com</a></li>
+        </ul>
+      </div>
     </div>
+    <div class="container footer__bottom">
+      <p>&copy; <span id="year">2026</span> SkyFumig. Todos los derechos reservados.</p>
+      <p>Sitio desarrollado por <a href="https://github.com/GustavoLarcoDev" target="_blank" rel="noopener">Gustavo Larco</a></p>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>Sky<span>Fumig</span></h2>
-                    <p>Tecnología de punta para el campo del futuro</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Enlaces Rápidos</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#tecnologia">Tecnología</a></li>
-                        <li><a href="#calculadora">Cotizador</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contacto</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Av. 25 de Junio, Machala - El Oro</p>
-                    <p><i class="fas fa-phone"></i> +593 98 765 4321</p>
-                    <p><i class="fas fa-envelope"></i> info@skyfumig.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 SkyFumig. Todos los derechos reservados.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <!-- WhatsApp flotante -->
+  <a class="wa-float" href="https://wa.me/593987654321" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
+  </a>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/593987654321" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+  <!-- Lightbox -->
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
+    <div class="lightbox__inner">
+      <div class="lightbox__bar">
+        <p class="lightbox__title" id="lightbox-title">Video</p>
+        <button class="icon-btn" type="button" data-close aria-label="Cerrar video"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <video class="lightbox__video" controls playsinline preload="none"></video>
+    </div>
+  </dialog>
 
-    
-
-    <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

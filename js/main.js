@@ -1,578 +1,272 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Preloader
-    const preloader = document.querySelector('.preloader');
-    
-    // Hide preloader when page is fully loaded
-    window.addEventListener('load', function() {
-        preloader.classList.add('fade-out');
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
+/* SkyFumig — interactions (vanilla JS, no dependencies) */
+(() => {
+  'use strict';
+
+  const WA_NUMBER = '593987654321';
+  const EMAIL = 'info@skyfumig.com';
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const safePlay = (video) => { const p = video.play(); if (p) p.catch(() => {}); };
+  const waLink = (text) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+
+  /* ---------- Header state + mobile nav ---------- */
+  const header = $('.header');
+  const toggle = $('.nav-toggle');
+  const nav = $('#site-nav');
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+      ticking = false;
     });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-    // Mobile Menu Toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu');
-    const nav = document.querySelector('.nav');
-    const navLinks = document.querySelectorAll('.nav ul li a');
+  const setNav = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    document.body.classList.toggle('nav-open', open);
+  };
+  toggle.addEventListener('click', () => setNav(toggle.getAttribute('aria-expanded') !== 'true'));
+  $$('a', nav).forEach((a) => a.addEventListener('click', () => setNav(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) { setNav(false); toggle.focus(); }
+  });
+  window.matchMedia('(min-width: 1081px)').addEventListener('change', (e) => { if (e.matches) setNav(false); });
 
-    mobileMenuBtn.addEventListener('click', function() {
-        nav.classList.toggle('active');
-        this.querySelector('i').classList.toggle('fa-times');
-        this.querySelector('i').classList.toggle('fa-bars');
+  /* ---------- Active nav link ---------- */
+  const links = new Map($$('.nav__list a').map((a) => [a.getAttribute('href').slice(1), a]));
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      links.forEach((a) => a.classList.remove('is-active'));
+      const link = links.get(entry.target.id);
+      if (link) link.classList.add('is-active');
     });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach((_, id) => { const s = document.getElementById(id); if (s) sectionObserver.observe(s); });
 
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            nav.classList.remove('active');
-            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-        });
+  /* ---------- Reveal on scroll ---------- */
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); }
     });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  $$('.reveal').forEach((el) => revealObserver.observe(el));
 
-    // Sticky Header on Scroll
-    const header = document.querySelector('.header');
-    let lastScroll = 0;
+  /* ---------- Hero video (portrait source on phones, respects reduced motion) ---------- */
+  const hero = $('#hero-video');
+  const portrait = window.matchMedia('(max-width: 820px) and (orientation: portrait)');
+  const loadHero = () => {
+    const src = portrait.matches ? hero.dataset.portraitSrc : hero.dataset.src;
+    if (hero.getAttribute('src') === src) return;
+    hero.poster = portrait.matches ? hero.dataset.portraitPoster : 'videos/posters/hero.webp';
+    hero.src = src;
+    if (!reduceMotion.matches && !hero.dataset.userPaused) safePlay(hero);
+  };
+  loadHero();
+  portrait.addEventListener('change', loadHero);
 
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll <= 0) {
-            header.classList.remove('scrolled');
-            return;
-        }
-        
-        if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
-            // Scrolling down
-            header.classList.add('scrolled');
-        } else if (currentScroll < lastScroll && header.classList.contains('scrolled')) {
-            // Scrolling up
-            header.classList.remove('scrolled');
-        }
-        
-        lastScroll = currentScroll;
+  /* ---------- Pause / play toggles (WCAG 2.2.2) ---------- */
+  const syncToggle = (btn, video) => {
+    const paused = video.paused;
+    btn.setAttribute('aria-pressed', String(paused));
+    btn.setAttribute('aria-label', paused ? 'Reproducir video' : 'Pausar video');
+  };
+  $$('.media-toggle').forEach((btn) => {
+    const video = document.getElementById(btn.dataset.video);
+    ['play', 'pause'].forEach((ev) => video.addEventListener(ev, () => syncToggle(btn, video)));
+    btn.addEventListener('click', () => {
+      if (video.paused) { delete video.dataset.userPaused; safePlay(video); }
+      else { video.dataset.userPaused = '1'; video.pause(); }
     });
+    syncToggle(btn, video);
+  });
 
-    // Smooth Scrolling for Anchor Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
+  /* ---------- In-view playback: tech video + gallery previews ---------- */
+  const tech = $('#tech-video');
+  const clips = $$('.clip');
+  const setPlaying = (clip, on) => {
+    const v = $('video', clip);
+    if (on) { safePlay(v); clip.classList.add('is-playing'); }
+    else { v.pause(); clip.classList.remove('is-playing'); }
+  };
+
+  const viewObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
+      if (target === tech) {
+        if (isIntersecting && !reduceMotion.matches && !tech.dataset.userPaused) safePlay(tech);
+        else if (!isIntersecting) tech.pause();
+        return;
+      }
+      // Touch devices: only the card that is (almost) fully visible plays a silent preview.
+      if (canHover.matches || reduceMotion.matches) return;
+      const clip = target.closest('.clip');
+      if (intersectionRatio >= 0.85) {
+        clips.forEach((c) => { if (c !== clip) setPlaying(c, false); });
+        setPlaying(clip, true);
+      } else setPlaying(clip, false);
     });
+  }, { threshold: [0, 0.85] });
+  viewObserver.observe(tech);
+  clips.forEach((clip) => viewObserver.observe($('.clip__btn', clip)));
 
-    // Price Calculator
-    const calculatorForm = document.querySelector('.calculator-form');
-    const montoElement = document.getElementById('monto');
-    const precioHectareaElement = document.getElementById('precio-hectarea');
-    
-    // Base price per hectare (this would typically come from a backend)
-    const PRECIO_BASE = 50; // USD per hectare
-    
-    if (calculatorForm) {
-        calculatorForm.addEventListener('change', calculateQuote);
-        calculatorForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            calculateQuote();
-        });
-        
-        // Initial calculation
-        calculateQuote();
-    }
-    
-    function calculateQuote() {
-        // Get form values
-        const terreno = parseFloat(document.getElementById('terreno').value);
-        const tamano = parseFloat(document.getElementById('tamano').value) || 0;
-        const frecuencia = parseFloat(document.getElementById('frecuencia').value);
-        const tipoPlaga = parseFloat(document.getElementById('tipo-plaga').value);
-        
-        // Calculate price per hectare
-        let precioPorHectarea = PRECIO_BASE * terreno * tipoPlaga;
-        
-        // Calculate total price
-        let total = precioPorHectarea * tamano * frecuencia;
-        
-        // Apply frequency discount
-        if (frecuencia !== 1) {
-            total = total * 0.9; // 10% discount for recurring services
-        }
-        
-        // Update the UI
-        montoElement.textContent = total.toFixed(2);
-        precioHectareaElement.textContent = precioPorHectarea.toFixed(2);
-    }
+  // Desktop: silent preview on hover / focus only.
+  clips.forEach((clip) => {
+    const btn = $('.clip__btn', clip);
+    const on = () => { if (canHover.matches && !reduceMotion.matches) setPlaying(clip, true); };
+    const off = () => { if (canHover.matches) setPlaying(clip, false); };
+    btn.addEventListener('mouseenter', on);
+    btn.addEventListener('mouseleave', off);
+    btn.addEventListener('focus', on);
+    btn.addEventListener('blur', off);
+  });
 
-    // Contact Form Submission
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const formObject = {};
-            formData.forEach((value, key) => {
-                formObject[key] = value;
-            });
-            
-            // Here you would typically send the form data to a server
-            console.log('Form submitted:', formObject);
-            
-            // Show success message
-            alert('¡Gracias por su mensaje! Nos pondremos en contacto con usted pronto.');
-            this.reset();
-        });
-    }
+  /* ---------- Lightbox ---------- */
+  const lightbox = $('#lightbox');
+  const lbVideo = $('video', lightbox);
+  let lastTrigger = null;
+  $$('.clip__btn').forEach((btn) => btn.addEventListener('click', () => {
+    lastTrigger = btn;
+    clips.forEach((c) => setPlaying(c, false));
+    $('#lightbox-title').textContent = btn.dataset.title;
+    lbVideo.src = btn.dataset.src;
+    lbVideo.setAttribute('aria-label', btn.dataset.title);
+    lightbox.showModal();
+    safePlay(lbVideo);
+  }));
+  lightbox.addEventListener('close', () => {
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    if (lastTrigger) lastTrigger.focus();
+  });
+  $('[data-close]', lightbox).addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.close(); });
 
-    // Animate elements on scroll
-    const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.service-card, .feature, .calculator-container, .contact-form');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
-            
-            if (elementPosition < screenPosition) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }
-        });
+  /* ---------- Quote calculator ---------- */
+  const PRICE_PER_HA = 50;
+  const money = new Intl.NumberFormat('es-EC', { style: 'currency', currency: 'USD' });
+  const num = new Intl.NumberFormat('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const form = $('#quote-form');
+  const haInput = $('#hectareas');
+  const totalEl = $('#total');
+  const quoteWa = $('#quote-wa');
+  let shownTotal = 0;
+  let anim = 0;
+
+  const animateTo = (value) => {
+    cancelAnimationFrame(anim);
+    if (reduceMotion.matches) { shownTotal = value; totalEl.textContent = money.format(value); return; }
+    const from = shownTotal;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / 450, 1);
+      shownTotal = from + (value - from) * (1 - Math.pow(1 - t, 3));
+      totalEl.textContent = money.format(shownTotal);
+      if (t < 1) anim = requestAnimationFrame(step);
     };
-    
-    // Set initial styles for animation
-    document.addEventListener('DOMContentLoaded', function() {
-        const elements = document.querySelectorAll('.service-card, .feature, .calculator-container, .contact-form');
-        elements.forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-        });
-        
-        // Initial check in case elements are already in view
-        animateOnScroll();
-    });
-    
-    // Check for animation on scroll
-    window.addEventListener('scroll', animateOnScroll);
+    anim = requestAnimationFrame(step);
+  };
 
-    // Testimonial Slider
-    let currentSlide = 0;
-    const testimonials = document.querySelectorAll('.testimonial');
-    
-    function showSlide(index) {
-        testimonials.forEach((testimonial, i) => {
-            testimonial.style.display = i === index ? 'block' : 'none';
-        });
-    }
-    
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % testimonials.length;
-        showSlide(currentSlide);
-    }
-    
-    // Auto-advance testimonials every 5 seconds
-    if (testimonials.length > 1) {
-        showSlide(currentSlide);
-        setInterval(nextSlide, 5000);
-    }
+  const checked = (name) => $(`input[name="${name}"]:checked`, form);
 
-    // Add active class to current section in navigation
-    const sections = document.querySelectorAll('section');
-    
-    function highlightNavigation() {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    }
-    
-    window.addEventListener('scroll', highlightNavigation);
-    
-    // Initialize AOS (Animate On Scroll) for elements
-    function initAOS() {
-        const elements = document.querySelectorAll('[data-aos]');
-        
-        elements.forEach(element => {
-            const position = element.getBoundingClientRect();
-            
-            // If element is in viewport
-            if (position.top < window.innerHeight && position.bottom >= 0) {
-                element.classList.add('aos-animate');
-            }
-        });
-    }
-    
-    // Run AOS check on load and scroll
-    window.addEventListener('load', initAOS);
-    window.addEventListener('scroll', initAOS);
-    
-    // Add animation to hero content
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        heroContent.style.opacity = '0';
-        heroContent.style.transform = 'translateY(30px)';
-        heroContent.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-        
-        setTimeout(() => {
-            heroContent.style.opacity = '1';
-            heroContent.style.transform = 'translateY(0)';
-        }, 500);
-    }
-    
-    // Add parallax effect to hero section
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.pageYOffset;
-            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
-        });
-    }
-    
-    // Add hover effect to service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-15px)';
-            this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.4)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
-        });
-    });
-    
-    // Add loading animation to buttons
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            this.classList.add('loading');
-            
-            // Simulate loading for demo purposes
-            setTimeout(() => {
-                this.classList.remove('loading');
-            }, 1500);
-        });
-    });
-    
-    // Initialize tooltips
-    const tooltips = document.querySelectorAll('[data-tooltip]');
-    tooltips.forEach(tooltip => {
-        tooltip.addEventListener('mouseenter', function() {
-            const tooltipText = this.getAttribute('data-tooltip');
-            const tooltipElement = document.createElement('div');
-            tooltipElement.className = 'tooltip';
-            tooltipElement.textContent = tooltipText;
-            document.body.appendChild(tooltipElement);
-            
-            const rect = this.getBoundingClientRect();
-            tooltipElement.style.top = `${rect.top - tooltipElement.offsetHeight - 10}px`;
-            tooltipElement.style.left = `${rect.left + (this.offsetWidth - tooltipElement.offsetWidth) / 2}px`;
-            
-            this.addEventListener('mouseleave', function() {
-                document.body.removeChild(tooltipElement);
-            }, { once: true });
-        });
-    });
-    
-    // Add animation to technology section
-    const techImage = document.querySelector('.tech-image');
-    if (techImage) {
-        window.addEventListener('scroll', function() {
-            const techSection = document.querySelector('.technology');
-            const techSectionTop = techSection.offsetTop;
-            const techSectionHeight = techSection.offsetHeight;
-            const scrollPosition = window.pageYOffset;
-            
-            if (scrollPosition > techSectionTop - window.innerHeight + 100 && 
-                scrollPosition < techSectionTop + techSectionHeight) {
-                techImage.style.transform = 'translateY(0) rotate(0deg)';
-                techImage.style.opacity = '1';
-            }
-        });
-    }
-    
-    // Add animation to calculator section
-    const calculatorContainer = document.querySelector('.calculator-container');
-    if (calculatorContainer) {
-        calculatorContainer.style.opacity = '0';
-        calculatorContainer.style.transform = 'translateY(30px)';
-        calculatorContainer.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    calculatorContainer.style.opacity = '1';
-                    calculatorContainer.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        observer.observe(calculatorContainer);
-    }
-    
-    // Add animation to contact form
-    const contactFormElement = document.querySelector('.contact-form');
-    if (contactFormElement) {
-        contactFormElement.style.opacity = '0';
-        contactFormElement.style.transform = 'translateX(50px)';
-        contactFormElement.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    contactFormElement.style.opacity = '1';
-                    contactFormElement.style.transform = 'translateX(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        observer.observe(contactFormElement);
-    }
-    
-    // Add smooth scrolling to all links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Add animation to service cards on scroll
-    const serviceCardsElements = document.querySelectorAll('.service-card');
-    serviceCardsElements.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.1}s`;
-    });
-    
-    // Add animation to features on scroll
-    const features = document.querySelectorAll('.feature');
-    features.forEach((feature, index) => {
-        feature.style.transitionDelay = `${index * 0.1}s`;
-    });
-    
-    // Initialize scroll reveal for elements
-    function initScrollReveal() {
-        const elements = document.querySelectorAll('.service-card, .feature, .calculator-container, .contact-form, .tech-image, .tech-content');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
-            
-            if (elementPosition < screenPosition) {
-                element.style.opacity = '1';
-                element.style.transform = 'translate(0)';
-            }
-        });
-    }
-    
-    // Run scroll reveal on load and scroll
-    window.addEventListener('load', initScrollReveal);
-    window.addEventListener('scroll', initScrollReveal);
-    
-    // Add loading animation to form submission
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function() {
-            const submitButton = this.querySelector('button[type="submit"]');
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-                
-                // Reset button after 3 seconds (simulating form submission)
-                setTimeout(() => {
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Enviar Mensaje';
-                }, 3000);
-            }
-        });
-    });
-    
-    // Add animation to social links
-    const socialLinks = document.querySelectorAll('.social-links a');
-    socialLinks.forEach((link, index) => {
-        link.style.transitionDelay = `${index * 0.1}s`;
-    });
-    
-    // Add animation to contact methods
-    const contactMethods = document.querySelectorAll('.contact-method');
-    contactMethods.forEach((method, index) => {
-        method.style.transitionDelay = `${index * 0.1}s`;
-    });
-    
-    // Initialize video autoplay for hero section
-    const heroVideo = document.getElementById('hero-video');
-    if (heroVideo) {
-        // Mute video for autoplay
-        heroVideo.muted = true;
-        
-        // Play video when it's loaded
-        heroVideo.addEventListener('loadedmetadata', function() {
-            const playPromise = heroVideo.play();
-            
-            // Handle autoplay restrictions
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log('Autoplay was prevented:', error);
-                    // Show play button or other UI to let user start the video
-                });
-            }
-        });
-    }
+  const calculate = () => {
+    const ha = parseFloat(haInput.value);
+    const valid = Number.isFinite(ha) && ha >= 1 && ha <= 10000;
+    haInput.closest('.stepper').classList.toggle('is-invalid', !valid);
+    haInput.setAttribute('aria-invalid', String(!valid));
+    $('#hectareas-error').textContent = valid ? '' : 'Ingresa un tamaño entre 1 y 10.000 hectáreas.';
+    quoteWa.classList.toggle('is-disabled', !valid);
+    quoteWa.setAttribute('aria-disabled', String(!valid));
+    if (!valid) { cancelAnimationFrame(anim); totalEl.textContent = '—'; shownTotal = 0; return; }
 
-    // Video Gallery: hover to enable sound + scale
-    const videoCards = document.querySelectorAll('.video-card');
-    const videoModal = document.getElementById('video-modal');
-    const modalPlayer = document.getElementById('modal-player');
-    const modalClose = document.querySelector('.video-modal-close');
-    const modalBackdrop = document.querySelector('.video-modal-backdrop');
+    const terreno = checked('terreno');
+    const plaga = checked('plaga');
+    const frecuencia = checked('frecuencia');
+    const factor = parseFloat(terreno.value) * parseFloat(plaga.value);
+    const perHa = PRICE_PER_HA * factor;
+    const freq = parseFloat(frecuencia.value);
+    const total = perHa * ha * freq; // only the frequency multiplier is applied (no extra discount)
 
-    // Only used when gallery uses image thumbs (not current setup)
-    function createVideoThumbnail(videoSrc, imgEl) {
-        if (!imgEl || imgEl.tagName !== 'IMG') return; // guard for current markup
-        try {
-            const video = document.createElement('video');
-            video.src = videoSrc;
-            video.muted = true;
-            video.preload = 'auto';
-            video.crossOrigin = 'anonymous';
-            const captureFrame = () => {
-                const canvas = document.createElement('canvas');
-                const w = video.videoWidth || 640;
-                const h = video.videoHeight || 360;
-                canvas.width = w;
-                canvas.height = h;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, w, h);
-                try { imgEl.src = canvas.toDataURL('image/jpeg'); } catch (_) {}
-            };
-            video.addEventListener('loadedmetadata', () => {
-                const t = Math.min(1, (video.duration && video.duration / 3) || 0.1);
-                const onSeeked = () => { captureFrame(); video.removeEventListener('seeked', onSeeked); };
-                video.addEventListener('seeked', onSeeked);
-                try { video.currentTime = t; } catch (_) { captureFrame(); }
-            });
-        } catch (_) {}
+    $('#b-factor').textContent = `× ${num.format(factor)}`;
+    $('#b-ha').textContent = money.format(perHa);
+    $('#b-size').textContent = ha.toLocaleString('es-EC');
+    const disc = $('#b-disc');
+    disc.textContent = freq < 1 ? `−${Math.round((1 - freq) * 100)}% (${frecuencia.dataset.label.toLowerCase()})` : '—';
+    disc.classList.toggle('is-on', freq < 1);
+    animateTo(total);
+
+    quoteWa.href = waLink([
+      'Hola SkyFumig, quisiera una cotización:',
+      `• Terreno: ${terreno.dataset.label}`,
+      `• Tamaño: ${ha.toLocaleString('es-EC')} ha`,
+      `• Plaga: ${plaga.dataset.label}`,
+      `• Frecuencia: ${frecuencia.dataset.label}`,
+      `• Estimado web: ${money.format(total)} + IVA`,
+    ].join('\n'));
+  };
+
+  form.addEventListener('input', calculate);
+  form.addEventListener('submit', (e) => { e.preventDefault(); calculate(); });
+  $$('.stepper__btn', form).forEach((btn) => btn.addEventListener('click', () => {
+    const current = parseFloat(haInput.value) || 0;
+    haInput.value = Math.min(10000, Math.max(1, Math.round(current) + Number(btn.dataset.step)));
+    calculate();
+  }));
+  calculate();
+
+  /* ---------- Contact form → WhatsApp or e-mail (no backend) ---------- */
+  const contact = $('#contact-form');
+  const status = $('#form-status');
+  contact.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fields = $$('input, select, textarea', contact);
+    let firstInvalid = null;
+    fields.forEach((f) => {
+      const bad = !f.checkValidity();
+      f.closest('.float').classList.toggle('is-invalid', bad);
+      f.setAttribute('aria-invalid', String(bad));
+      if (bad && !firstInvalid) firstInvalid = f;
+    });
+    if (firstInvalid) {
+      status.className = 'form-status is-err';
+      status.textContent = 'Revisa los campos marcados: nombre, correo válido, servicio y mensaje son obligatorios.';
+      firstInvalid.focus();
+      return;
     }
+    const d = Object.fromEntries(new FormData(contact));
+    const body = [
+      `Nombre: ${d.nombre}`,
+      `Correo: ${d.correo}`,
+      d.telefono ? `Teléfono: ${d.telefono}` : '',
+      `Servicio: ${d.servicio}`,
+      '',
+      d.mensaje,
+    ].filter((line, i) => line !== '' || i === 4).join('\n');
 
-    // Hover/touch sound behavior for inline gallery videos
-    if (videoCards && videoCards.length) {
-        const muteAllExcept = (keepEl) => {
-            videoCards.forEach(c => {
-                const v = c.querySelector('video.video-thumb');
-                if (v && v !== keepEl) {
-                    v.muted = true;
-                    v.volume = 0.0;
-                }
-            });
-        };
-
-        videoCards.forEach(card => {
-            const inlineVideo = card.querySelector('video.video-thumb');
-            const imgThumb = card.querySelector('img.video-thumb');
-
-            if (imgThumb) {
-                const src = card.getAttribute('data-video');
-                if (src) createVideoThumbnail(src, imgThumb);
-            }
-
-            if (inlineVideo) {
-                // Ensure autoplay loop muted by default
-                inlineVideo.muted = true;
-                inlineVideo.loop = true;
-                inlineVideo.playsInline = true;
-                const playPromise = inlineVideo.play();
-                if (playPromise && playPromise.catch) playPromise.catch(() => {});
-
-                card.addEventListener('mouseenter', () => {
-                    muteAllExcept(inlineVideo);
-                    inlineVideo.muted = false;
-                    inlineVideo.volume = 0.9;
-                    const p = inlineVideo.play();
-                    if (p && p.catch) p.catch(() => {});
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    inlineVideo.muted = true;
-                    inlineVideo.volume = 0.0;
-                });
-
-                // Accessibility: focus/blur for keyboard users
-                card.addEventListener('focusin', () => {
-                    muteAllExcept(inlineVideo);
-                    inlineVideo.muted = false;
-                    inlineVideo.volume = 0.9;
-                });
-                card.addEventListener('focusout', () => {
-                    inlineVideo.muted = true;
-                    inlineVideo.volume = 0.0;
-                });
-
-                // Touch support (iPad): unmute on touchstart, remute on touchend/second tap
-                card.addEventListener('touchstart', () => {
-                    muteAllExcept(inlineVideo);
-                    inlineVideo.muted = false;
-                    inlineVideo.volume = 1.0;
-                    const p = inlineVideo.play();
-                    if (p && p.catch) p.catch(() => {});
-                }, { passive: true });
-                card.addEventListener('touchend', () => {
-                    // Keep sound briefly to avoid abrupt cut; then mute after delay
-                    setTimeout(() => {
-                        inlineVideo.muted = true;
-                        inlineVideo.volume = 0.0;
-                    }, 800);
-                });
-            }
-        });
+    const viaEmail = e.submitter && e.submitter.value === 'email';
+    if (viaEmail) {
+      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`Consulta web: ${d.servicio}`)}&body=${encodeURIComponent(body)}`;
+    } else {
+      window.open(waLink(`Hola SkyFumig,\n${body}`), '_blank', 'noopener');
     }
+    status.className = 'form-status is-ok';
+    status.textContent = viaEmail
+      ? 'Abrimos tu aplicación de correo con el mensaje listo. Solo presiona Enviar.'
+      : 'Abrimos WhatsApp con tu mensaje listo. Solo presiona Enviar.';
+  });
+  contact.addEventListener('input', (e) => {
+    const wrap = e.target.closest('.float');
+    if (wrap && e.target.checkValidity()) { wrap.classList.remove('is-invalid'); e.target.removeAttribute('aria-invalid'); }
+  });
 
-    // If modal elements exist (legacy), keep listeners harmless
-    if (modalClose) modalClose.addEventListener('click', () => {
-        if (modalPlayer) try { modalPlayer.pause(); } catch(_) {}
-        if (videoModal) videoModal.classList.remove('active');
-    });
-    if (modalBackdrop) modalBackdrop.addEventListener('click', () => {
-        if (modalPlayer) try { modalPlayer.pause(); } catch(_) {}
-        if (videoModal) videoModal.classList.remove('active');
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && videoModal && videoModal.classList.contains('active')) {
-            if (modalPlayer) try { modalPlayer.pause(); } catch(_) {}
-            videoModal.classList.remove('active');
-        }
-    });
-});
+  /* ---------- Footer year ---------- */
+  $('#year').textContent = new Date().getFullYear();
+})();
