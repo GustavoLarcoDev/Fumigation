@@ -185,6 +185,7 @@
     $('#hectareas-error').textContent = valid ? '' : 'Ingresa un tamaño entre 1 y 10.000 hectáreas.';
     quoteWa.classList.toggle('is-disabled', !valid);
     quoteWa.setAttribute('aria-disabled', String(!valid));
+    if (!valid) { quoteWa.removeAttribute('href'); quoteWa.setAttribute('tabindex', '-1'); } else { quoteWa.removeAttribute('tabindex'); }
     if (!valid) { cancelAnimationFrame(anim); totalEl.textContent = '—'; shownTotal = 0; return; }
 
     const terreno = checked('terreno');
@@ -266,6 +267,20 @@
     const wrap = e.target.closest('.float');
     if (wrap && e.target.checkValidity()) { wrap.classList.remove('is-invalid'); e.target.removeAttribute('aria-invalid'); }
   });
+
+  /* ---------- Map facade (loads Google Maps only on request) ---------- */
+  const mapBtn = $('#map-load');
+  if (mapBtn) {
+    mapBtn.addEventListener('click', () => {
+      const facade = mapBtn.closest('.map__facade');
+      const frame = document.createElement('iframe');
+      frame.title = 'Mapa: Av. 25 de Junio, Machala, El Oro';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.src = facade.dataset.mapSrc;
+      facade.replaceWith(frame);
+      frame.focus();
+    });
+  }
 
   /* ---------- Footer year ---------- */
   $('#year').textContent = new Date().getFullYear();

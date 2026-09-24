@@ -26,7 +26,12 @@ A landing page for **SkyFumig**, a drone crop-spraying and pest-control business
   - Pause controls on every autoplaying video.
   - Full support for `prefers-reduced-motion`: no autoplay and no animation.
 - **SEO**: meta description, Open Graph and Twitter cards with a 1200×630 image, a canonical URL, `LocalBusiness` JSON-LD, an SVG/PNG favicon set, `robots.txt` and `sitemap.xml`.
+- **Map facade**: the Google Maps embed only loads when the visitor asks for it, which keeps about 0.5 MB of third-party scripts off the page.
 - **Performance budget**: first load dropped from **~40 MB to ~1.2 MB** on desktop and **~0.6 MB** on mobile. The videos were re-encoded with FFmpeg: audio stripped, 540 px portrait at 30 fps, H.264 CRF 29–33 with `+faststart`. All posters are WebP. The icons are an inline SVG sprite, which replaced the Font Awesome CDN, and the JavaScript is dependency-free at about 250 lines.
+
+## Content note
+
+The phone number, WhatsApp number, email and testimonials are carried over unchanged from the original version of the site. Verify them with the business before using this page for real leads. They are left out of the `LocalBusiness` structured data until they are confirmed.
 
 ## Tech
 

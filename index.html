@@ -43,8 +43,6 @@
     "description": "Fumigación agrícola y control de plagas con drones en la provincia de El Oro, Ecuador.",
     "url": "https://gustavolarcodev.github.io/Fumigation/",
     "image": "https://gustavolarcodev.github.io/Fumigation/img/og-image.jpg",
-    "telephone": "+593 98 765 4321",
-    "email": "info@skyfumig.com",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Av. 25 de Junio",
@@ -350,7 +348,7 @@
             </dl>
             <div class="quote__actions">
               <a class="btn btn--primary btn--block" id="quote-wa" href="https://wa.me/593987654321" target="_blank" rel="noopener">
-                <svg aria-hidden="true"><use href="#i-whatsapp"/></svg> Enviar esta cotización por WhatsApp
+                <svg aria-hidden="true"><use href="#i-whatsapp"/></svg> <span class="label-long">Enviar esta cotización por WhatsApp</span><span class="label-short">Enviar por WhatsApp</span>
               </a>
               <a class="btn btn--ghost btn--block" href="#contacto">Solicitar asesoría</a>
             </div>
@@ -416,8 +414,14 @@
           </ul>
 
           <div class="map card">
-            <iframe title="Mapa: Av. 25 de Junio, Machala, El Oro" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps?q=Av.+25+de+Junio,+Machala,+El+Oro,+Ecuador&amp;z=15&amp;output=embed"></iframe>
+            <div class="map__facade" data-map-src="https://www.google.com/maps?q=Av.+25+de+Junio,+Machala,+El+Oro,+Ecuador&amp;z=15&amp;output=embed">
+              <span class="map__pin"><svg aria-hidden="true"><use href="#i-pin"/></svg></span>
+              <p class="map__addr">Av. 25 de Junio, Machala - El Oro</p>
+              <div class="map__btns">
+                <button type="button" class="btn btn--primary btn--sm" id="map-load">Ver mapa aquí</button>
+                <a class="btn btn--ghost btn--sm" href="https://www.google.com/maps/search/?api=1&amp;query=Av.+25+de+Junio,+Machala,+El+Oro,+Ecuador" target="_blank" rel="noopener">Abrir en Google Maps</a>
+              </div>
+            </div>
           </div>
         </div>
 
